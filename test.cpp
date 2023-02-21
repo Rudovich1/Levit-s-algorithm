@@ -58,7 +58,7 @@ void levitTest()
 		<< std::setw(20) << "Worst case" << '\t'
 		<< std::setw(20) << "City block distance" << '\n';
 
-	for (int i = 5; i <= 1000; ++i)
+	for (int i = 2; i <= 10000; i *= 2)
 	{
 		auto graph = GraphGenerator::randomGraph_V(i);
 		auto start = std::chrono::system_clock::now();

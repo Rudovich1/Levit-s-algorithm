@@ -6,32 +6,32 @@ class GraphGenerator
 {
 public:
 
-	using Graph = std::vector<std::vector<std::pair<int, int>>>;
+	using Graph = std::vector<std::vector<std::pair<long long, long long>>>;
 
-	static Graph randomGraph_V(int num_of_nodes);
-	static Graph randomGraph_V15(int num_of_nodes);
-	static Graph randomGraph_V2(int num_of_nodes);
-	static Graph levitWorstCase(int num_of_nodes);
-	static Graph randomGraph_cityBlockDistance(int num_of_nodes);
+	static Graph randomGraph_V(long long num_of_nodes);
+	static Graph randomGraph_V15(long long num_of_nodes);
+	static Graph randomGraph_V2(long long num_of_nodes);
+	static Graph levitWorstCase(long long num_of_nodes);
+	static Graph randomGraph_cityBlockDistance(long long num_of_nodes);
 
 private:
 
 	struct ValueGenerator
 	{
-		int num_of_nodes;
+		long long num_of_nodes;
 		std::uniform_int_distribution<> edge_value;
 		std::uniform_int_distribution<> node_id;
 		std::random_device rd;
 		std::mt19937 generator;
 
-		ValueGenerator(int num_of_nodes);
+		ValueGenerator(long long num_of_nodes);
 
-		int getNodeId();
-		int getNodeId(int max_id);
-		int getEdgeValue();
-		int getNumOfEdges(int min_num_of_edges, int max_num_of_edges);
+		long long getNodeId();
+		long long getNodeId(long long max_id);
+		long long getEdgeValue();
+		long long getNumOfEdges(long long min_num_of_edges, long long max_num_of_edges);
 	};
 
-	static Graph randomTree_(int num_of_nodes);
-	static Graph randomGraph_(int num_of_nodes, int num_of_edges);
+	static Graph randomTree_(long long num_of_nodes);
+	static Graph randomGraph_(long long num_of_nodes, long long num_of_edges);
 };

@@ -1,27 +1,27 @@
 #include "Levit.h"
 
-std::vector<int> Levit::count(const std::vector<std::vector<std::pair<int, int>>>& graph, int start_node)
+std::vector<long long> Levit::count(const std::vector<std::vector<std::pair<long long, long long>>>& graph, long long start_node)
 {
-    int n = graph.size();
-    std::vector<int> lengths(n);
-    std::unordered_set<int> M0, M2;
-    std::queue<int> M1, M1e;
+    long long n = graph.size();
+    std::vector<long long> lengths(n);
+    std::unordered_set<long long> M0, M2;
+    std::queue<long long> M1, M1e;
 
     lengths[start_node] = 0;
     M1e.push(start_node);
-    for (int i = 0; i < n; ++i)
+    for (long long i = 0; i < n; ++i)
     {
         if (i == start_node)
         {
             continue;
         }
-        lengths[i] = INT_MAX;
+        lengths[i] = LLONG_MAX;
         M2.insert(i);
     }
 
     while (!M1.empty() || !M1e.empty())
     {
-        int node;
+        long long node;
         if (!M1e.empty())
         {
             node = M1e.front();

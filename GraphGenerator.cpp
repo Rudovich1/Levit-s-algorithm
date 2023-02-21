@@ -1,46 +1,46 @@
 #include "GraphGenerator.h"
 
-std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomGraph_V(int num_of_nodes)
+std::vector<std::vector<std::pair<long long, long long>>> GraphGenerator::randomGraph_V(long long num_of_nodes)
 {
     ValueGenerator generator(num_of_nodes);
 
     return randomGraph_(num_of_nodes, generator.getNumOfEdges(num_of_nodes - 1, std::min(num_of_nodes * (num_of_nodes - 1), num_of_nodes * 3)));
 }
 
-std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomGraph_V15(int num_of_nodes)
+std::vector<std::vector<std::pair<long long, long long>>> GraphGenerator::randomGraph_V15(long long num_of_nodes)
 {
     ValueGenerator generator(num_of_nodes);
 
-    int num_of_edges = (long double)(num_of_nodes * num_of_nodes * num_of_nodes) / (num_of_nodes * num_of_nodes);
+    long long num_of_edges = (long double)(num_of_nodes * num_of_nodes * num_of_nodes) / (num_of_nodes * num_of_nodes);
 
     return randomGraph_(num_of_nodes, generator.getNumOfEdges(std::max(num_of_nodes - 1, num_of_edges / 3), std::min(num_of_nodes * (num_of_nodes - 1), num_of_edges * 3)));
 }
 
-std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomGraph_V2(int num_of_nodes)
+std::vector<std::vector<std::pair<long long, long long>>> GraphGenerator::randomGraph_V2(long long num_of_nodes)
 {
     ValueGenerator generator(num_of_nodes);
     
-    int num_of_edges = num_of_nodes * num_of_nodes;
+    long long num_of_edges = num_of_nodes * num_of_nodes;
 
     return randomGraph_(num_of_nodes, generator.getNumOfEdges(std::max(num_of_nodes - 1, num_of_edges / 3), num_of_nodes * (num_of_nodes - 1)));
 }
 
-std::vector<std::vector<std::pair<int, int>>> GraphGenerator::levitWorstCase(int num_of_nodes)
+std::vector<std::vector<std::pair<long long, long long>>> GraphGenerator::levitWorstCase(long long num_of_nodes)
 {
     Graph graph(num_of_nodes);
 
     graph[0].emplace_back(std::make_pair(num_of_nodes - 1, 0));
     graph[num_of_nodes - 1].emplace_back(std::make_pair(0, 0));
 
-    for (int i = num_of_nodes - 2; i > 0; --i)
+    for (long long i = num_of_nodes - 2; i > 0; --i)
     {
         graph[i].emplace_back(std::make_pair(0, graph[0][graph[0].size() - 1].second + i - 1));
         graph[0].emplace_back(std::make_pair(i, graph[0][graph[0].size() - 1].second + i - 1));
     }
 
-    for (int i = 1; i < num_of_nodes; ++i)
+    for (long long i = 1; i < num_of_nodes; ++i)
     {
-        for (int j = i + 1; j < num_of_nodes; ++j)
+        for (long long j = i + 1; j < num_of_nodes; ++j)
         {
             graph[i].emplace_back(std::make_pair(j, j - i - 1));
             graph[j].emplace_back(std::make_pair(i, j - i - 1));
@@ -50,17 +50,17 @@ std::vector<std::vector<std::pair<int, int>>> GraphGenerator::levitWorstCase(int
     return graph;
 }
 
-int getDistance(std::pair<int, int> node_1, std::pair<int, int> node_2)
+long long getDistance(std::pair<long long, long long> node_1, std::pair<long long, long long> node_2)
 {
     return std::abs(node_1.first - node_2.first) + std::abs(node_1.second - node_2.second);
 }
 
-std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomGraph_cityBlockDistance(int num_of_nodes)
+std::vector<std::vector<std::pair<long long, long long>>> GraphGenerator::randomGraph_cityBlockDistance(long long num_of_nodes)
 {
 
     ValueGenerator generator(num_of_nodes);
 
-    std::vector<std::pair<int, int>> nodes(num_of_nodes);
+    std::vector<std::pair<long long, long long>> nodes(num_of_nodes);
 
     for (auto& node : nodes)
     {
@@ -69,19 +69,19 @@ std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomGraph_cityBl
 
     Graph graph(num_of_nodes);
 
-    for (int i = 1; i < num_of_nodes; ++i)
+    for (long long i = 1; i < num_of_nodes; ++i)
     {
-        int node_id = generator.getNodeId(i - 1);
+        long long node_id = generator.getNodeId(i - 1);
         graph[node_id].emplace_back(std::make_pair(i, getDistance(nodes[node_id], nodes[i])));
     }
 
-    int num_of_edges = (long double)(num_of_nodes * num_of_nodes * num_of_nodes) / (num_of_nodes * num_of_nodes);
+    long long num_of_edges = (long double)(num_of_nodes * num_of_nodes * num_of_nodes) / (num_of_nodes * num_of_nodes);
     num_of_edges = generator.getNumOfEdges(std::max(num_of_nodes - 1, num_of_edges / 3), std::min(num_of_nodes * (num_of_nodes - 1), num_of_edges * 3)) - num_of_nodes + 1;
 
     while(num_of_edges)
     {
-        int node_1 = generator.getNodeId();
-        int node_2 = generator.getNodeId();
+        long long node_1 = generator.getNodeId();
+        long long node_2 = generator.getNodeId();
         if (node_1 == node_2)
         {
             continue;
@@ -93,13 +93,13 @@ std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomGraph_cityBl
     return graph;
 }
 
-std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomTree_(int num_of_nodes)
+std::vector<std::vector<std::pair<long long, long long>>> GraphGenerator::randomTree_(long long num_of_nodes)
 {
     ValueGenerator generator(num_of_nodes);
 
     Graph graph(num_of_nodes);
 
-    for (int i = 1; i < num_of_nodes; ++i)
+    for (long long i = 1; i < num_of_nodes; ++i)
     {
         graph[generator.getNodeId(i - 1)].emplace_back(std::make_pair(i, generator.getEdgeValue()));
     }
@@ -107,7 +107,7 @@ std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomTree_(int nu
     return graph;
 }
 
-std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomGraph_(int num_of_nodes, int num_of_edges)
+std::vector<std::vector<std::pair<long long, long long>>> GraphGenerator::randomGraph_(long long num_of_nodes, long long num_of_edges)
 {
     ValueGenerator generator(num_of_nodes);
     Graph graph = randomTree_(num_of_nodes);
@@ -115,8 +115,8 @@ std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomGraph_(int n
     
     while (num_of_edges)
     {
-        int node_1 = generator.getNodeId();
-        int node_2 = generator.getNodeId();
+        long long node_1 = generator.getNodeId();
+        long long node_2 = generator.getNodeId();
         if (node_1 == node_2)
         {
             continue;
@@ -128,26 +128,26 @@ std::vector<std::vector<std::pair<int, int>>> GraphGenerator::randomGraph_(int n
     return graph;
 }
 
-GraphGenerator::ValueGenerator::ValueGenerator(int num_of_nodes): num_of_nodes(num_of_nodes), generator(rd()), edge_value(0, 100000), node_id(0, num_of_nodes - 1)
+GraphGenerator::ValueGenerator::ValueGenerator(long long num_of_nodes): num_of_nodes(num_of_nodes), generator(rd()), edge_value(0, 100000), node_id(0, num_of_nodes - 1)
 {
 }
 
-int GraphGenerator::ValueGenerator::getNodeId()
+long long GraphGenerator::ValueGenerator::getNodeId()
 {
     return node_id(generator);
 }
 
-int GraphGenerator::ValueGenerator::getNodeId(int max_id)
+long long GraphGenerator::ValueGenerator::getNodeId(long long max_id)
 {
-    return std::uniform_int_distribution<>{0, max_id}(generator);
+    return std::uniform_int_distribution<>{0, (int)max_id}(generator);
 }
 
-int GraphGenerator::ValueGenerator::getEdgeValue()
+long long GraphGenerator::ValueGenerator::getEdgeValue()
 {
     return edge_value(generator);
 }
 
-int GraphGenerator::ValueGenerator::getNumOfEdges(int min_num_of_edges, int max_num_of_edges)
+long long GraphGenerator::ValueGenerator::getNumOfEdges(long long min_num_of_edges, long long max_num_of_edges)
 {
-    return std::uniform_int_distribution<>{min_num_of_edges, max_num_of_edges}(generator);
+    return std::uniform_int_distribution<>{(int)min_num_of_edges, (int)max_num_of_edges}(generator);
 }
